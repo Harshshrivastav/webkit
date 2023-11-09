@@ -1,7 +1,7 @@
 import os
-import shutil
 import tkinter as tk
 import subprocess
+import shutil
 project_name = ''
 project_description = ''
 
@@ -40,21 +40,44 @@ submit_button.pack()
 
 # Start the GUI event loop
 root.mainloop()
+
 print(project_name)
 
 commands = [
     " mkdir public &&  cd public &&  touch index.html",
 ]
-
-# Combine the commands into a single command string
 combined_command = " && ".join(commands)
 os.system(combined_command)
+
+# Combine the commands into a single command string
 
 commands = [
     " mkdir src && cd src && touch app.js && touch index.js",
 ]
 combined_command = " && ".join(commands)
 os.system(combined_command)
+
+commands = [
+    "touch project_name.txt && touch project_desc.txt",
+]
+combined_command = " && ".join(commands)
+os.system(combined_command)
+
+source_dir = 'images'
+dest_dir = 'src/images'
+
+try:
+  # Copy the entire contents of the source directory to the destination directory
+  shutil.copytree(source_dir, dest_dir)
+  print(f"Images copied from '{source_dir}' to '{dest_dir}' successfully.")
+except Exception as e:
+  print(f"Error copying images: {e}")
+
+# creating projectname.txt
+with open('project_name.txt', 'w') as file:
+    file.write(project_name)
+with open('project_desc.txt', 'w') as file:
+    file.write(project_description)
 
 package_json_content = f'''
 {{
@@ -137,17 +160,26 @@ root.render(
 );
 '''
 app_js = f'''
-function App() {{
+import React from 'react';
+import {{ BrowserRouter as Router, Route, Routes }} from 'react-router-dom';
+
+const About = () => <div>About Us Page</div>;
+const Contact = () => <div>Contact Us Page</div>;
+
+const App = () => {{
   return (
-    <div className="App">
-    <>
-    </>
-    </div>
+  <>
+    <Router>
+      <Routes>
+        <Route path="/about" component={{About}} />
+        <Route path="/contact" component={{Contact}} />
+      </Routes>
+    </Router>
+  </>
   );
-}}
+}};
 
 export default App;
-
 '''
 
 # Save the package.json content to a file
@@ -171,10 +203,11 @@ commands = [
 for command in commands:
     os.system(command)
 
-subprocess.run(["python", "component_generator.py"])
+# subprocess.run(["python", "component_generator.py"])
 
 commands = [
     "npm i",
+    "npm install react-bootstrap bootstrap react-router-dom"
 ]
 for command in commands:
     os.system(command)
@@ -183,3 +216,4 @@ commands = [
 ]
 for command in commands:
     os.system(command)
+    
