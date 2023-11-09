@@ -13,9 +13,160 @@ def generate_component():
     component_directory = os.path.join("src", "components", component_name)
     os.makedirs(component_directory)
 
+    with open("project_name.txt", 'r') as file:
+        project_name = file.read()
+        print(project_name)
+
+    cssdata=" "
+
+    if component_name == "nav":
+        data = f''' 
+        import React from 'react';
+        import {{ Navbar, Nav, Container }} from 'react-bootstrap';
+        import 'bootstrap/dist/css/bootstrap.min.css';
+
+        function {component_name}() {{
+        return (
+            <div>
+            <Navbar bg="dark" variant="dark" expand="lg">
+                <Container>
+                    <Navbar.Brand href="/">{project_name}</Navbar.Brand>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="ml-auto">
+                        <Nav.Link href="/about">About Us</Nav.Link>
+                        <Nav.Link href="/contact">Contact Us</Nav.Link>
+                    </Nav>
+                    </Navbar.Collapse>
+                </Container>
+            </Navbar>
+            </div>
+            );
+        }}
+        export default {component_name};
+        '''
+
+    elif component_name=="hero":
+        data = f""" 
+        import React from 'react';
+        import {{ Container, Row, Col }} from 'react-bootstrap';
+        import 'bootstrap/dist/css/bootstrap.min.css';
+        import image from '../../images/image3.png';
+        import image2 from '../../images/image2.jpeg';
+        import image3 from '../../images/image1.webp';
+        import './{component_name}.css';
+        const hero = () =>{{
+        return (
+            <div className="hero-section overlay2">
+            <Container fluid>
+                <Row>
+                <Col className="image-container">
+                    <img src={{image}} alt="Image 1" className="image image1" />
+                    <img src={{image2}} alt="Image 2" className="image image2" />
+                    <img src={{image3}} alt="Image 3" className="image image3" />
+
+                    <div className="overlay"></div>
+                </Col>
+
+                <Col className="text-container">
+                    <h1 className="heading">hero</h1>
+                    <p className="subheading">hero section is here</p>
+                </Col>
+                </Row>
+            </Container>
+            </div>
+        );
+        }};
+        export default {component_name};
+        """
+        
+        cssdata=""" 
+            .hero-section {
+            background-color: #333; 
+            color: white; 
+            
+            padding: 200px 0; 
+            }
+
+            .image-container {
+            position: relative;
+            }
+
+            .image {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+            }
+          
+            .image2{
+            top:100px;
+            left: 100px;
+            z-index: 0;
+            } 
+            .image1{
+            z-index: 1;
+            }
+            .image3{
+                z-index: 0;
+                bottom:100px;
+                left: 100px;;
+            }
+
+            
+
+            .overlay {
+            position: absolute;
+            top: 0;
+            left: 5%;
+            width: 45%; 
+            height: 100%;
+            z-index: 2;
+            background-color: rgba(96, 96, 96, 0.5); 
+            }
+
+            .text-container {
+            padding: 20px; 
+            }
+
+            .heading {
+            font-size: 36px; 
+            margin-bottom: 10px;
+            }
+
+            .subheading {
+            font-size: 24px; 
+            }
+            .overlay2 {
+                width: 100%; 
+                height: 100%;
+                background-image: url("../../images/image2.jpeg"); 
+                background-repeat: no-repeat;
+                background-size: cover;
+                }
+    
+            """
+
+    else:    
+        data = f"""
+        import React from 'react';
+
+        function {component_name}() {{
+            return (
+                <div>
+                    {component_content}
+                </div>
+                );
+            }}
+            
+        export default {component_name};
+        """
     # Create the React component JavaScript file
     with open(os.path.join(component_directory, f"{component_name}.js"), "w") as file:
-        file.write(f"import React from 'react';\n\nfunction {component_name}() {{\n  return (\n    <div>\n      {component_content}\n    </div>\n  );\n}}\n\nexport default {component_name};\n")
+        file.write(data)
+    with open(os.path.join(component_directory, f"{component_name}.css"), "w") as file:
+        file.write(cssdata)
 
     messagebox.showinfo("Component Created", f"React component '{component_name}' has been created!")
     root.destroy()
@@ -42,31 +193,47 @@ generate_button.pack()
 
 root.mainloop()
 
-# Python script to insert a React component into app.js
+if component_name== "nav":
+    with open("src/app.js", "r") as file:
+        lines = file.readlines()
+    insert_index = None
+    for i, line in enumerate(lines):
+        if "<Routes>" in line:
+            insert_index = i
+            break
+    if insert_index is not None:
+        # Insert the new component content
+        lines.insert(insert_index, f"      <{component_name.title()} />\n")
 
+        # Write the modified content back to app.js
+        with open("src/app.js", "w") as file:
+            file.writelines(lines)
+        print(f"Inserted {component_name} into app.js.")
+    else:
+        print("Error: Could not find the insertion point in app.js.")
 
-
-# Read the app.js file
-with open("src/app.js", "r") as file:
-    lines = file.readlines()
-
-# Find the line where you want to insert the component
-insert_index = None
-for i, line in enumerate(lines):
-    if "</>" in line:
-        insert_index = i
-        break
-
-if insert_index is not None:
-    # Insert the new component content
-    lines.insert(insert_index, f"      <{component_name.title()} />\n")
-
-    # Write the modified content back to app.js
-    with open("src/app.js", "w") as file:
-        file.writelines(lines)
-    print(f"Inserted {component_name} into app.js.")
 else:
-    print("Error: Could not find the insertion point in app.js.")
+    # Read the app.js file
+    with open("src/app.js", "r") as file:
+        lines = file.readlines()
+
+    # Find the line where you want to insert the component
+    insert_index = None
+    for i, line in enumerate(lines):
+        if "</>" in line:
+            insert_index = i
+            break
+
+    if insert_index is not None:
+        # Insert the new component content
+        lines.insert(insert_index, f"      <{component_name.title()} />\n")
+
+        # Write the modified content back to app.js
+        with open("src/app.js", "w") as file:
+            file.writelines(lines)
+        print(f"Inserted {component_name} into app.js.")
+    else:
+        print("Error: Could not find the insertion point in app.js.")
 
 
 with open("src/app.js", 'r') as file:
@@ -74,6 +241,6 @@ with open("src/app.js", 'r') as file:
 
 
 with open("src/app.js", 'w') as file:
-    new_data = f"import {component_name.title()} from './components/{component_name}/{component_name}' \n"
+    new_data = f"import {component_name.title()} from './components/{component_name}/{component_name}'; \n"
     file.write(new_data)
     file.write(old_content)
