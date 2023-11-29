@@ -78,6 +78,11 @@ with open('project_name.txt', 'w') as file:
     file.write(project_name)
 with open('project_desc.txt', 'w') as file:
     file.write(project_description)
+commands = [
+    "npm init -y",
+]
+for command in commands:
+    os.system(command)
 
 package_json_content = f'''
 {{
@@ -197,11 +202,6 @@ with open("src/app.js",'w')as file:
 
 
 # Commands to run in the background
-commands = [
-    "npm init -y",
-]
-for command in commands:
-    os.system(command)
 
 # subprocess.run(["python", "component_generator.py"])
 
