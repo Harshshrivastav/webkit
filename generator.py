@@ -1,9 +1,16 @@
 import os
-import tkinter as tk
-import subprocess
+import customtkinter as ctk 
 import shutil
 project_name = ''
 project_description = ''
+
+ctk.set_appearance_mode("dark") 
+ctk.set_default_color_theme("green") 
+  
+app = ctk.CTk() 
+app.geometry("500x400") 
+app.title("WEBKIT: Project Generator") 
+  
 
 def get_project_info():
     global project_name
@@ -12,44 +19,33 @@ def get_project_info():
     project_description = description_entry.get() 
     print(f"Project Name: {project_name}")
     print(f"Project description: {project_description}")
-    root.destroy()  # Stop the GUI event loop
+    app.destroy() 
+ 
+label = ctk.CTkLabel(app,text="WEB KIT") 
+label.pack(pady=20) 
+frame = ctk.CTkFrame(master=app) 
+frame.pack(pady=20,padx=40,fill='both',expand=True) 
+label = ctk.CTkLabel(master=frame,text='Generate React project') 
+label.pack(pady=12,padx=10)
 
-# Create the main window
-root = tk.Tk()
-root.title("Project Name Input")
+name_entry= ctk.CTkEntry(master=frame,placeholder_text="Project Name") 
+name_entry.pack(pady=12,padx=10) 
+  
+description_entry= ctk.CTkEntry(master=frame,placeholder_text="Project Description") 
+description_entry.pack(pady=12,padx=10) 
 
-# Create a label
-name_label = tk.Label(root, text="Enter Project Name:")
-name_label.pack()
-
-# Create an entry widget
-name_entry = tk.Entry(root)
-name_entry.pack()
-
-# Create a label
-description_label = tk.Label(root, text="Enter Project Description:")
-description_label.pack()
-
-# Create an entry widget
-description_entry = tk.Entry(root)
-description_entry.pack()
-
-# Create a submit button
-submit_button = tk.Button(root, text="Submit", command=get_project_info)
-submit_button.pack()
-
-# Start the GUI event loop
-root.mainloop()
+button = ctk.CTkButton(master=frame,text='Generate ',command=get_project_info) 
+button.pack(pady=12,padx=10) 
+app.mainloop()
 
 print(project_name)
 
 commands = [
-    " mkdir public &&  cd public &&  touch index.html",
+    "mkdir public &&  cd public &&  touch index.html",
 ]
 combined_command = " && ".join(commands)
 os.system(combined_command)
 
-# Combine the commands into a single command string
 
 commands = [
     " mkdir src && cd src && touch app.js && touch index.js",
@@ -78,6 +74,7 @@ with open('project_name.txt', 'w') as file:
     file.write(project_name)
 with open('project_desc.txt', 'w') as file:
     file.write(project_description)
+    
 commands = [
     "npm init -y",
 ]
@@ -190,20 +187,21 @@ export default App;
 # Save the package.json content to a file
 with open('package.json', 'w') as file:
     file.write(package_json_content)
+    print("writing Package.json...")
 
 with open('public/index.html','w') as file:
     file.write(index_content)
+    print("writing index.html...")
+
     
 with open("src/index.js",'w')as file:
     file.write(index_js)
+    print("writing index.js....")
 
 with open("src/app.js",'w')as file:
     file.write(app_js)
+    print("writing app.js....")
 
-
-# Commands to run in the background
-
-# subprocess.run(["python", "component_generator.py"])
 
 commands = [
     "npm i",
