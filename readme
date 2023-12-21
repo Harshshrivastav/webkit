@@ -1,18 +1,25 @@
 Creating a comprehensive user manual involves documenting step-by-step instructions for users to understand and utilize the functionalities of your project. Below is a sample user manual for your React and Bootstrap project using generate.py, including the ability to create custom components, delete components, and generate projects. The manual also mentions the possibility of extending the project to include backend services in the future.
+
 User Manual: 
+
 Table of Contents
 1.	Introduction 1.1. Purpose 1.2. System Requirements
 2.	Getting Started 2.1. Installation 2.2. Project Structure
 3.	Usage 3.1. Creating Custom Components 3.2. Deleting Components 3.3. Generating React Projects
 4.	Future Features 4.1. Extending with Backend Services
+
 1. Introduction
+
 1.1. Purpose
 The purpose of My React App is to provide a streamlined process for creating React projects with Bootstrap styling. Users can easily generate components, manage them, and organize their projects efficiently.
+
 1.2. System Requirements
 •	Node.js and npm installed
 •	Familiarity with React and Bootstrap
-•	VS Code installed 
+•	VS Code installed
+
 2. Getting Started
+
 2.1. Installation
 1.	Clone the repository from GitHub.
 2.	Navigate to the project directory.
@@ -29,38 +36,48 @@ The purpose of My React App is to provide a streamlined process for creating Rea
 •	images: Store project-specific images.
 •	app.js: Main JavaScript file.
 •	index.js: Entry point for the application.
+
 3. Usage
+
 3.1. Adding Images inside Image folder
+
   	1. if image is a Logo of website name it as Logo.png
-2. if Using hero, name three images as Image1.png,
-     Image2.png, Image3.png 
-3.1. Generating React Projects
-1.	Run the generate.py script.
-2.	Follow the prompts to provide the project name and Description.
-3.	The script will create a new project folder in the current directory with the specified name and generate the necessary files.
- 3.2. Creating Components
- 	3.2.1 Using CreateComponents.py
-1.	Run the CreateComponents.py script.
-2.	Follow the prompts to provide the component name and Description.
-Navigation: To Generate a navigation bar, write component name as nav and write its description, this action will lead to a default navigation bar.
-[Image of Default nav bar]
-Hero Section: To Generate a Hero Section, write component name as Hero and write its description, this action will lead to a default Hero Section.
-[Image of Default Hero Section]
+    2. if Using hero, name three images as Image1.png, Image2.png, Image3.png 
+
+3.2. Generating React Projects
+    1.	Run the generate.py script.
+    2.	Follow the prompts to provide the project name and Description.
+    3.	The script will create a new project folder in the current directory with the specified name and generate the necessary files.
+
+3.3. Creating Components
+ 	  3.3.1 Using CreateComponents.py
+        1.	Run the CreateComponents.py script.
+        2.	Follow the prompts to provide the component name and Description.
+
+    Navigation: To Generate a navigation bar, write component name as nav and write its description, this action will lead to a default navigation bar.
+  
+    
+    Hero Section: To Generate a Hero Section, write component name as Hero and write its description, this action will lead to a default Hero Section.
+    
+
 3.2.2 Using CreateCustomComponents.py
-1.	Run the CreateComponents.py script.
-2.	Follow the prompts to provide the component name and Description.
-Navigation: To Generate a Custom navigation bar, write component name as nav and write its Field Items all separated by Comma [“ , ”], [For example: Home,About Us,Contact Us,…]
- this action will lead to a custom navigation bar.
-[Image of custom nav bar]
-Form Section: To Generate a Custom Form Section, write component name as Form and write its Field Items all separated by Comma [“ , ”], [For example: User Name,Password,Comfirm password,…]
-this action will lead to a Custom Form Section.
-[Image of Custom Form Section]
+
+      1.	Run the CreateComponents.py script.
+      2.	Follow the prompts to provide the component name and Description.
+    Navigation: To Generate a Custom navigation bar, write component name as nav and write its Field Items all separated by Comma [“ , ”], [For example: Home,About Us,Contact Us,…]
+     this action will lead to a custom navigation bar.
+   
+
+    Form Section: To Generate a Custom Form Section, write component name as Form and write its Field Items all separated by Comma [“ , ”], [For example: User Name,Password,Comfirm password,…]
+    this action will lead to a Custom Form Section.
+
 3.3. Deleting Components
-1.	Run the Delete_component.py script.
-2.	Follow the prompts to select the component to delete.
-3.	The script will remove the selected component folder from src/components.
-4. Future Features
+
+      1.	Run the Delete_component.py script.
+      2.	Follow the prompts to select the component to delete.
+      3.	The script will remove the selected component folder from src/components.
+      4. Future Features
+
 4.1. Extending with Backend Services
 In future updates, the project may include backend services for enhanced functionality. Stay tuned for further documentation on integrating backend services with your React projects.
-________________________________________
 
