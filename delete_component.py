@@ -1,8 +1,17 @@
 import os
 import tkinter as tk
+import customtkinter as ctk 
 import shutil
 
+ctk.set_appearance_mode("dark") 
+ctk.set_default_color_theme("green") 
+  
+app = ctk.CTk() 
+app.geometry("500x400") 
+app.title("WEBKIT: Delete Component") 
+
 component_name=""
+
 def delete_component():
     global component_name
     component_name = component_name_entry.get()
@@ -31,19 +40,18 @@ def delete_component():
         app_file.write(app_js)
 
     print(f"Component '{component_name}' deleted and app.js updated successfully.")
-    root.destroy()
+    app.destroy() 
+ 
+label = ctk.CTkLabel(app,text="WEB KIT") 
+label.pack(pady=20) 
+frame = ctk.CTkFrame(master=app) 
+frame.pack(pady=20,padx=40,fill='both',expand=True) 
+label = ctk.CTkLabel(master=frame,text='Delete React Component') 
+label.pack(pady=12,padx=10)
 
-root = tk.Tk()
-root.title("Delete Component")
-
-# Component Name Label and Entry
-component_name_label = tk.Label(root, text="Component Name:")
-component_name_label.pack()
-component_name_entry = tk.Entry(root)
-component_name_entry.pack()
-
-# Generate Button
-generate_button = tk.Button(root, text="Delete Component", command=delete_component)
-generate_button.pack()
-
-root.mainloop()
+component_name_entry= ctk.CTkEntry(master=frame,placeholder_text="Component Name") 
+component_name_entry.pack(pady=12,padx=10) 
+  
+button = ctk.CTkButton(master=frame,text='Delete Component ',command=delete_component) 
+button.pack(pady=12,padx=10) 
+app.mainloop()
