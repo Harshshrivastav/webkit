@@ -1,151 +1,178 @@
-import tkinter as tk
+import customtkinter as ctk 
 import os
 component_name=""
 component_description=""
+
 with open("project_name.txt", 'r') as file:
   project_name = file.read()
   print(project_name)
+
+ctk.set_appearance_mode("dark") 
+ctk.set_default_color_theme("green") 
+
 def generate_component():
     global component_name
     global component_description
     component_name = component_name_entry.get()
     component_description = component_description_entry.get().split(',')
+    app.destroy()
 
-    # Create a React component directory
-    component_dir = "src/components/"+component_name.lower().replace(" ", "-")
-    os.makedirs(component_dir, exist_ok=True)
+app = ctk.CTk() 
+app.geometry("500x400") 
+app.title("WEBKIT: Custom Component Generator")
 
-    # Create a React component file with navigation buttons
-    if component_name == 'nav':
-        nav_js = f'''import React from 'react';
-import {{ Navbar, Nav }} from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+label = ctk.CTkLabel(app,text="WEB KIT") 
+label.pack(pady=20) 
+frame = ctk.CTkFrame(master=app) 
+frame.pack(pady=20,padx=40,fill='both',expand=True)
 
-const MyNav = () => {{
-  return (
-    <Navbar bg="light" expand="lg">
-      <Navbar.Brand>{project_name}</Navbar.Brand>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="mr-auto">
-          {"".join([f'<Nav.Link href="#">{item}</Nav.Link>' for item in component_description])}
-        </Nav>
-      </Navbar.Collapse>
-    </Navbar>
-  );
-}}
+label3 = ctk.CTkLabel(master=frame,text="Field Items ( comma-separated ):") 
+label3.pack(pady=12,ipady=5,padx=10) 
 
-export default MyNav;
-'''
+component_name_entry= ctk.CTkEntry(master=frame,placeholder_text="Component Name") 
+component_name_entry.pack(pady=12, ipady=5,padx=10) 
 
-        with open(f'{component_dir}/{component_name}.jsx', 'w') as nav_file:
-            nav_file.write(nav_js)
-    elif component_name=="hero":
-      hero_js = f""" 
-      import React from 'react';
-      import {{ Container, Row, Col }} from 'react-bootstrap';
-      import 'bootstrap/dist/css/bootstrap.min.css';
-      import image from '../../images/image3.png';
-      import image2 from '../../images/image2.jpeg';
-      import image3 from '../../images/image1.webp';
-      import './{component_name}.css';
-      const hero = () =>{{
+ 
+component_description_entry= ctk.CTkEntry(master=frame,placeholder_text="Component Fields") 
+component_description_entry.pack(pady=12,ipady=5,padx=10) 
+button = ctk.CTkButton(master=frame,text='Generate Component',command=generate_component) 
+button.pack(pady=12,ipady=5,padx=10) 
+app.mainloop()
+
+
+component_dir = "src/components/"+component_name.lower().replace(" ", "-")
+os.makedirs(component_dir, exist_ok=True)
+
+if component_name == 'nav':
+  nav_js = f'''import React from 'react';
+    import {{ Navbar, Nav }} from 'react-bootstrap';
+    import 'bootstrap/dist/css/bootstrap.min.css';
+
+    const MyNav = () => {{
       return (
-          <div className="hero-section overlay2">
-          <Container fluid>
-              <Row>
-              <Col className="image-container">
-                  <img src={{image}} alt="Image 1" className="image image1" />
-                  <img src={{image2}} alt="Image 2" className="image image2" />
-                  <img src={{image3}} alt="Image 3" className="image image3" />
+        <Navbar bg="light" expand="lg">
+          <Navbar.Brand>{project_name}</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="mr-auto">
+              {"".join([f'<Nav.Link href="#">{item}</Nav.Link>' for item in component_description])}
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
+      );
+    }}
 
-                  <div className="overlay"></div>
-              </Col>
+    export default MyNav;
+    '''
 
-              <Col className="text-container">
-                  <h1 className="heading">hero</h1>
-                  <p className="subheading">hero section is here</p>
-              </Col>
-              </Row>
-          </Container>
-          </div>
+  with open(f'{component_dir}/{component_name}.jsx', 'w') as nav_file:
+    nav_file.write(nav_js)
+elif component_name=="hero":
+  hero_js = f""" 
+  import React from 'react';
+  import {{ Container, Row, Col }} from 'react-bootstrap';
+  import 'bootstrap/dist/css/bootstrap.min.css';
+  import image from '../../images/image3.png';
+  import image2 from '../../images/image2.jpeg';
+  import image3 from '../../images/image1.webp';
+  import './{component_name}.css';
+  const hero = () =>{{
+  return (
+      <div className="hero-section overlay2">
+      <Container fluid>
+          <Row>
+          <Col className="image-container">
+              <img src={{image}} alt="Image 1" className="image image1" />
+              <img src={{image2}} alt="Image 2" className="image image2" />
+              <img src={{image3}} alt="Image 3" className="image image3" />
+
+              <div className="overlay"></div>
+          </Col>
+
+          <Col className="text-container">
+              <h1 className="heading">hero</h1>
+              <p className="subheading">hero section is here</p>
+          </Col>
+          </Row>
+      </Container>
+      </div>
       );
       }};
       export default {component_name};
       """
-      hero_css=""" 
-          .hero-section {
-          background-color: #333; 
-          color: white; 
-          
-          padding: 200px 0; 
-          }
-
-          .image-container {
-          position: relative;
-          }
-
-          .image {
-          position: absolute;
-          width: 50%;
-          height: 100%;
-          object-fit: cover;
-          z-index: -2;
-          }
-        
-          .image2{
-          top:100px;
-          left: 100px;
-          z-index: 0;
-          } 
-          .image1{
-          z-index: 1;
-          }
-          .image3{
-              z-index: 0;
-              bottom:100px;
-              left: 100px;;
-          }
-          .overlay {
-          position: absolute;
-          top: 0;
-          left: 5%;
-          width: 45%; 
-          height: 100%;
-          z-index: 2;
-          background-color: rgba(96, 96, 96, 0.5); 
-          }
-
-          .text-container {
-          padding: 20px; 
-          }
-
-          .heading {
-          font-size: 36px; 
-          margin-bottom: 10px;
-          }
-
-          .subheading {
-          font-size: 24px; 
-          }
-          .overlay2 {
-              width: 100%; 
-              height: 100%;
-              background-image: url("../../images/image2.jpeg"); 
-              background-repeat: no-repeat;
-              background-size: cover;
-              }
+  hero_css=""" 
+  .hero-section {
+  background-color: #333; 
+  color: white; 
   
-          """
-      with open(f'{component_dir}/{component_name}.jsx', 'w') as hero_file:
-        hero_file.write(hero_js)
-      with open(f'{component_dir}/{component_name}.css', 'w') as hero_file:
-        hero_file.write(hero_css)
+  padding: 200px 0; 
+  }
 
-    elif component_name == 'footer':
-        pass
-    elif component_name == 'form':
-        form_js = f'''import React from 'react';
+  .image-container {
+  position: relative;
+  }
+
+  .image {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  }
+
+  .image2{
+  top:100px;
+  left: 100px;
+  z-index: 0;
+  } 
+  .image1{
+  z-index: 1;
+  }
+  .image3{
+      z-index: 0;
+      bottom:100px;
+      left: 100px;;
+  }
+  .overlay {
+  position: absolute;
+  top: 0;
+  left: 5%;
+  width: 45%; 
+  height: 100%;
+  z-index: 2;
+  background-color: rgba(96, 96, 96, 0.5); 
+  }
+
+  .text-container {
+  padding: 20px; 
+  }
+
+  .heading {
+  font-size: 36px; 
+  margin-bottom: 10px;
+  }
+
+  .subheading {
+  font-size: 24px; 
+  }
+  .overlay2 {
+      width: 100%; 
+      height: 100%;
+      background-image: url("../../images/image2.jpeg"); 
+      background-repeat: no-repeat;
+      background-size: cover;
+      }
+
+  """
+  with open(f'{component_dir}/{component_name}.jsx', 'w') as hero_file:
+    hero_file.write(hero_js)
+  with open(f'{component_dir}/{component_name}.css', 'w') as hero_file:
+    hero_file.write(hero_css)
+
+elif component_name == 'footer':
+  pass
+elif component_name == 'form':
+  form_js = f'''import React from 'react';
 import {{ Form, Button }} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -168,36 +195,8 @@ const MyForm = () => {{
 export default MyForm;
 '''
 
-        with open(f'{component_dir}/{component_name}.jsx', 'w') as form_file:
-            form_file.write(form_js)
-    window.destroy()
-
-# Create the main window
-window = tk.Tk()
-window.title("React Component Generator")
-
-# Create and configure the input fields
-component_name_label = tk.Label(window, text="Component Name:")
-component_name_label.pack()
-component_name_entry = tk.Entry(window)
-component_name_entry.pack()
-
-component_description_label = tk.Label(window, text="Field Items (comma-separated):")
-component_description_label.pack()
-component_description_entry = tk.Entry(window)
-component_description_entry.pack()
-
-# Create a button to generate the component
-generate_button = tk.Button(window, text="Generate Component", command=generate_component)
-generate_button.pack()
-
-# Create a label to display the result
-result_label = tk.Label(window, text="")
-result_label.pack()
-
-# Start the Tkinter event loop
-window.mainloop()
-
+  with open(f'{component_dir}/{component_name}.jsx', 'w') as form_file:
+    form_file.write(form_js)
 
 
 if component_name== "nav":
